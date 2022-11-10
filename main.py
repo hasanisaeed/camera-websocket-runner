@@ -4,17 +4,8 @@ from PyQt6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDateTimeEdit,
         QProgressBar, QPushButton, QRadioButton, QScrollBar, QSizePolicy, QVBoxLayout,
         QSlider, QSpinBox, QStyleFactory, QTableWidget, QTabWidget, QTextEdit, QWidget)
 import subprocess
-
-async def active_socket():
-    subprocess.call(['ping', 'localhost'])
-
-def run_ffmpeg():
-    ffmpeg = 'ffmpeg -i rtsp://admin:123456@192.168.1.120:554/stream1 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8081/supersecret'
-    return subprocess.Popen(ffmpeg.split(' '))
-
-def run_websocket():
-    open_socket = 'node /home/saeed/Desktop/camera/websocket-relay.js supersecret 8081 8082'
-    return subprocess.Popen(open_socket.split(' '))
+ 
+ 
      
 
 def run_camera():
