@@ -122,8 +122,11 @@ class WidgetGallery(QDialog):
         self.txtPassword.setEchoMode(QLineEdit.EchoMode.Password) 
         
         layout = QGridLayout()
-        layout.addWidget(QLabel('Username: '), 0, 0) 
-        layout.addWidget(self.txtUsername, 0, 1)  
+        layout.addWidget(QLabel('FFMpeg: '), 0, 0) 
+        layout.addWidget(self.txtFFMpegPath, 0, 1)  
+        
+        layout.addWidget(QLabel('Username: ')) 
+        layout.addWidget(self.txtUsername)  
         
         layout.addWidget(QLabel('Password: ')) 
         layout.addWidget(self.txtPassword)  
