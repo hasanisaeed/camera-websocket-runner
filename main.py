@@ -13,8 +13,8 @@ class WidgetGallery(QDialog):
         }
         
         self.camera = {
-            'ffmpeg': self.txtFFMpegPath.text(),
-            'username': self.txtUsername.text(),
+             'ffmpeg': self.txtFFMpegPath.text(),
+             'username': self.txtUsername.text(),
              'password': self.txtPassword.text(),
              'ip': self.txtIP.text(),
              'port': int(self.txtPort.text()),
@@ -48,8 +48,6 @@ class WidgetGallery(QDialog):
         subject.attach(self.observer_ffmpeg)
 
         subject.run_camera()
-
-        
 
     
     def check_status(self):
@@ -168,14 +166,13 @@ class WidgetGallery(QDialog):
         layout.addWidget(self.txtRelayJsPath)
         
         self.topRightGroupBox.setLayout(layout)        
-         
 
  
 if __name__ == '__main__':
-
     import sys
 
     app = QApplication(sys.argv)
     gallery = WidgetGallery()
     gallery.show()
     sys.exit(app.exec())
+    
