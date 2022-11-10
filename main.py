@@ -15,29 +15,39 @@ def run_ffmpeg():
 def run_websocket():
     open_socket = 'node /home/saeed/Desktop/camera/websocket-relay.js supersecret 8081 8082'
     return subprocess.Popen(open_socket.split(' '))
-
-proc_ws = None
-proc_ffmpeg = None     
-
-def run_socket():
-    global proc_ws, proc_ffmpeg
      
-    if proc_ws is not None or proc_ffmpeg is not None:
-        proc_ws.terminate() 
-        proc_ffmpeg.terminate()
-        
-    proc_ws = run_websocket()
-    
-    print('*'*1000)
-    print(type(proc_ws))
-    
-    if(proc_ws.poll() is None):
-        print('The websocket is running...')
-    
-    proc_ffmpeg = run_ffmpeg()
 
-    if(proc_ffmpeg.poll() is None):
-        print('The ffmpeg is running...')
+def run_camera():
+    from collections import namedtuple
+    from observer import ConcreteSubject, WebSocketObserver, FFMpegObserver 
+
+    subject = ConcreteSubject()
+    
+    WebSocket = namedtuple('WebSocket','relay_js_path secret port_in port_out')
+    web_socket = WebSocket(
+                 relay_js_path= '/home/saeed/Desktop/camera/websocket-relay.js',
+                 secret= 'supersecret', 
+                 port_in= 8081,
+                 port_out= 8082,)
+    
+    observer_ws = WebSocketObserver(web_socket)
+    
+    subject.attach(observer_ws)
+    
+    Camera = namedtuple('Camera', 'username password ip port size rate')
+    camera = Camera('admin', '123456', '192.168.1.120', 554, '640x480', '1000k')
+    
+    Socket = namedtuple('Socket', 'host port secret')
+    socket = Socket('http://localhost',
+                     8081, 
+                    'supersecret')
+    
+    observer_ffmpeg = FFMpegObserver(camera, socket)
+    
+    subject.attach(observer_ffmpeg)
+
+    subject.run_camera()
+
 
     
 class WidgetGallery(QDialog):
@@ -49,7 +59,7 @@ class WidgetGallery(QDialog):
         styleComboBox = QComboBox()
         styleComboBox.addItems(QStyleFactory.keys())
 
-        styleLabel = QLabel("برای فعالسازی دوربین بر روی دکمه روشن کلیک کنید") 
+        styleLabel = QLabel("برای فعالسازی دوربین بر روی دکمه زیر کلیک کنید") 
  
         self.createTopRightGroupBox()  
 
@@ -71,7 +81,7 @@ class WidgetGallery(QDialog):
         togglePushButton = QPushButton("روشن کردن دوربین")
         togglePushButton.setCheckable(True)
         togglePushButton.setChecked(True)
-        togglePushButton.clicked.connect(run_socket)
+        togglePushButton.clicked.connect(run_camera)
 
         nom_plan_label = QLabel()
         nom_plan_label.setText('دوربین روشن است')
