@@ -54,9 +54,10 @@ class WidgetGallery(QDialog):
     
     def check_status(self):
         try:
-            message = '%s - %s' % (self.observer_ffmpeg.is_running()[1], self.observer_ws.is_running()[1])
-            color = self.observer_ffmpeg.is_running()[0]
-            self.lblActive.setText(message)
+            _, ws_message  = self.observer_ws.is_running()
+            color, ffmpeg_message = self.observer_ffmpeg.is_running()
+            
+            self.lblActive.setText('%s\n%s' % (ws_message, ffmpeg_message))
             self.lblActive.setStyleSheet(color)
         except AttributeError:
             pass
