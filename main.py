@@ -1,6 +1,8 @@
 from PyQt6.QtWidgets import (QApplication, QCheckBox, QDialog, QGridLayout, QGroupBox,
                              QLabel, QLineEdit, QPushButton, QStyleFactory)
-    
+from manager.config import environment
+
+@environment(env='manager/conf.ini')
 class WidgetGallery(QDialog):
     def run_camera(self): 
         from collections import namedtuple
@@ -62,20 +64,25 @@ class WidgetGallery(QDialog):
     def __init__(self, parent=None):
         super(WidgetGallery, self).__init__(parent)
 
-        self.originalPalette = QApplication.palette()
-        self.txtFFMpegPath = QLineEdit('ffmpeg')
-        self.txtUsername = QLineEdit('admin')
-        self.txtPassword = QLineEdit('123456')
-        self.txtIP = QLineEdit('192.168.1.120')
-        self.txtPort = QLineEdit('554')
-        self.txtSize = QLineEdit('640x480')
-        self.txtRate = QLineEdit('1000k')
-        self.txtHost = QLineEdit('http://localhost')
         
-        self.txtRelayJsPath = QLineEdit('/home/saeed/Desktop/camera/websocket-relay.js')
-        self.txtPortIn = QLineEdit('8081')
-        self.txtPortOut = QLineEdit('8082')
-        self.txtSecret = QLineEdit('supersecret')
+        ffmpeg = WidgetGallery.ffmpeg
+        socket = WidgetGallery.socket
+        websocket = WidgetGallery.websocket
+        
+        self.originalPalette = QApplication.palette()
+        self.txtFFMpegPath = QLineEdit(ffmpeg.ffmpeg)
+        self.txtUsername = QLineEdit(ffmpeg.username)
+        self.txtPassword = QLineEdit(ffmpeg.password)
+        self.txtIP = QLineEdit(ffmpeg.ip)
+        self.txtPort = QLineEdit(ffmpeg.port)
+        self.txtSize = QLineEdit(ffmpeg.size)
+        self.txtRate = QLineEdit(ffmpeg.rate)
+        self.txtHost = QLineEdit(socket.host)
+        
+        self.txtRelayJsPath = QLineEdit(websocket.relay_js_path)
+        self.txtPortIn = QLineEdit(websocket.port_in)
+        self.txtPortOut = QLineEdit(websocket.port_out)
+        self.txtSecret = QLineEdit(websocket.secret)
 
         self.camera_settings()  
         self.websocket_settings()  
