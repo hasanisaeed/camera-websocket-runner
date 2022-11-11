@@ -16,7 +16,6 @@ class Observer(ABC):
         pass
 
 
-
 class WebSocketObserver(Observer):
     
     def __init__(self,
@@ -26,8 +25,6 @@ class WebSocketObserver(Observer):
                                              web_socket.secret, 
                                              web_socket.port_in,
                                              web_socket.port_out)
-        print('-.'*50)
-        print(self.command)
     def update(self, subject):
         self.subject = subject
         if subject._state is not None and subject._state.poll() is not None:
@@ -38,7 +35,7 @@ class WebSocketObserver(Observer):
         if self.subject._state.poll() is None:
             return 'color: green', 'سوکت در حال اجراست'
         return 'color: red', 'دوربین از کار افتاده است. دوباره دکمه روشن رو بزنید. Socket Error!'
-            
+
 
 class FFMpegObserver(Observer):
     
