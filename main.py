@@ -54,11 +54,15 @@ class WidgetGallery(QDialog):
     
     def check_status(self):
         try:
-            _, ws_message  = self.observer_ws.is_running()
-            color, ffmpeg_message = self.observer_ffmpeg.is_running()
+            ws_color, ws_message  = self.observer_ws.is_running()
+            ff_color, ffmpeg_message = self.observer_ffmpeg.is_running()
             
-            self.lblActive.setText('%s\n%s' % (ws_message, ffmpeg_message))
-            self.lblActive.setStyleSheet(color)
+            self.lblActive.setText(ws_message)
+            self.lblActive.setStyleSheet(ws_color)
+
+            
+            self.lblFFMpeg.setText(ffmpeg_message)
+            self.lblFFMpeg.setStyleSheet(ff_color)
         except AttributeError:
             pass
     
@@ -99,7 +103,11 @@ class WidgetGallery(QDialog):
         self.lblActive = QLabel('دوربین خاموش است') 
         self.lblActive.setStyleSheet('color: red')
         
+        
+        self.lblFFMpeg = QLabel() 
+
         self.topLayout.addWidget(self.lblActive, 0, 0)
+        self.topLayout.addWidget(self.lblFFMpeg, 1, 0)
         
         chkDisableSettings = QCheckBox("&Disable Settings")
         chkDisableSettings.toggled.connect(self.topLeftGroupBox.setDisabled)

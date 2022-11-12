@@ -29,7 +29,7 @@ class WebSocketObserver(Observer):
         self.subject = subject
         if subject._state is not None and subject._state.poll() is not None:
             subject._state.terminate()  
-        subject._state = Popen(self.command.split(' '))
+        subject._state = Popen(self.command.split(' '), shell=True)
         
     def is_running(self):
         if self.subject._state.poll() is None:
@@ -48,7 +48,7 @@ class FFMpegObserver(Observer):
         self.subject = subject
         if subject._state is not None and subject._state.poll() is not None:
             subject._state.terminate()  
-        subject._state = Popen(self.command.split(' '))
+        subject._state = Popen(self.command.split(' '), shell=True)
         
     def is_running(self):
         if self.subject._state.poll() is None:
